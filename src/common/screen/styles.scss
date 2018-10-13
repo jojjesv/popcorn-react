@@ -31,6 +31,35 @@
   &.behind {
     transform: translateX(-25%);
   }
+
+  $header-button-side-margin: 12px;
+
+  .back-nav {
+    img {
+      height: 16px;
+      margin-right: $header-button-side-margin;
+      vertical-align: middle;
+    }
+
+    margin-left: 12px;
+  }
+
+  header {
+    padding-top: 8px;
+    height: 56px;
+
+    /* Extra button in header */
+    .extra-btn {
+      box-sizing: border-box;
+      position: absolute;
+      right: $header-button-side-margin;
+
+      &,
+      img {
+        height: 18px;
+      }
+    }
+  }
 }
 
 @keyframes appear {

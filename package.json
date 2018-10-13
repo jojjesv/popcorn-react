@@ -6,7 +6,8 @@
     "classnames": "^2.2.6",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
-    "react-scripts": "2.0.4"
+    "react-scripts": "2.0.4",
+    "whatwg-fetch": "^3.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -24,6 +25,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@types/whatwg-fetch": "0.0.33",
     "node-sass": "^4.9.3"
   }
 }

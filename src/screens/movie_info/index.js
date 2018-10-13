@@ -28,7 +28,7 @@ export default class MovieInfoScreen extends Screen {
     fetchingData: false,
     actorInfoVisible: false,
     actorInfoData: null
-  }
+  };
 
   componentDidMount() {
     this.fetch();
@@ -97,7 +97,7 @@ export default class MovieInfoScreen extends Screen {
                           ScreenStack.mounted.push(ActorInfoScreen, {
                             name: actor.name,
                             pictureSrc: actor.pictureUri
-                          })
+                          }, actor.name)
                         }}
                       />
                     )}

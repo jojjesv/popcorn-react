@@ -5,6 +5,7 @@ import MoviePreview from '../../common/movie_preview';
 import Movie from '../../models/Movie';
 import MovieInfoScreen from '../movie_info';
 import ScreenStack from '../../common/screen/ScreenStack';
+import AddMovieScreen from '../add_movie';
 
 /**
  * Screen which lists all movies, allows for signing in.
@@ -52,6 +53,21 @@ export default class MoviesScreen extends Screen {
     }, 1500);
   }
 
+  renderHeaderExtraContent() {
+    return (
+      <button className="extra-btn add-movie" onClick={() => this.toAddMovie()}>
+        <img src={require('../../assets/ic_add.png')} alt="Add" />
+      </button>
+    )
+  }
+
+  /**
+   * Navigates to the "add movie" screen.
+   */
+  toAddMovie() {
+    ScreenStack.mounted.push(AddMovieScreen, {}, "Add movie");
+  }
+
   renderContent() {
     let { state } = this;
 
@@ -65,7 +81,7 @@ export default class MoviesScreen extends Screen {
               onClick={() => {
                 ScreenStack.mounted.push(MovieInfoScreen, {
                   movieId: item.id
-                })
+                }, item.title);
               }}
               pictureSrc={item.pictureUri} />
           )}

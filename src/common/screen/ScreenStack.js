@@ -33,14 +33,16 @@ export default class extends React.Component {
    * Pushes a new screen into the stack.
    * @param {Screen} screenComponent 
    * @param {any} props 
+   * @param {string} title
    */
-  push(screenComponent, props = {}) {
+  push(screenComponent, props = {}, title = null) {
     this.topScreenIsNew = true;
     this.setState(o => {
       o.stack.push({
         screen: screenComponent,
         props,
-        visible: true
+        visible: true,
+        title
       });
       return o;
     }, () => {
@@ -86,10 +88,11 @@ export default class extends React.Component {
           state.stack.map((s, i, a) => {
             const Screen = s.screen;
 
-            const prevScreen = i > 0 ? a[i - 1].screen : null;
-            let prevScreenTitle = prevScreen ? "getTitle" in prevScreen ?
-              prevScreen.getTitle() : prevScreen.name
-              : null;
+            let prevScreenTitle = i > 0 ? a[i - 1].title : null;
+
+            if (i > 0 && !prevScreenTitle) {
+              prevScreenTitle = a[i - 1].screen.name;
+            }
 
             return (
               <Screen
@@ -116,4 +119,5 @@ export class StackData {
 
   props
   visible
+  title
 }

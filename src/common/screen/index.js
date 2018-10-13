@@ -19,16 +19,19 @@ export default class Screen extends React.Component {
     onBackPressed: PropTypes.func
   };
 
-  getTitle() {
-    return "Untitled screen";
+  renderContent() {
+    return null;
   }
 
-  renderContent() {
+  renderHeaderExtraContent() {
     return null;
   }
 
   render() {
     let { props } = this;
+
+    let headerExtra = this.renderHeaderExtraContent();
+    let renderHeader = !!props.onBackPressed || !!headerExtra;
 
     return (
       <section className={classNames({
@@ -38,9 +41,18 @@ export default class Screen extends React.Component {
         new: props.new
       })} ref={props.nodeRef}>
         {
-          props.onBackPressed && (
+          renderHeader && (
             <header>
-              <button onClick={() => props.onBackPressed()}>{props.previousScreenTitle}</button>
+              {
+                props.onBackPressed ? (
+                  <button className="back-nav" onClick={() => props.onBackPressed()}>
+                    <img alt="" src={require('../../assets/ic_back.png')} />{props.previousScreenTitle}
+                  </button>
+                ) : null
+              }
+              {
+                headerExtra
+              }
             </header>
           )
         }
