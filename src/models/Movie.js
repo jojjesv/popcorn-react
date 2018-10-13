@@ -5,7 +5,7 @@
 export default class {
   id
   title
-  runTime
+  runtime
   score
   cast
   pictureUri

@@ -4,6 +4,7 @@ import GridList from '../../common/grid_list';
 import MoviePreview from '../../common/movie_preview';
 import Movie from '../../models/Movie';
 import MovieInfoScreen from '../movie_info';
+import ScreenStack from '../../common/screen/ScreenStack';
 
 /**
  * Screen which lists all movies, allows for signing in.
@@ -13,8 +14,6 @@ export default class MoviesScreen extends Screen {
   state = {
     movies: [],
     fetchingMovies: false,
-    movieInfoVisible: false,
-    movieInfoMovieId: false,
   };
 
   componentDidMount() {
@@ -63,16 +62,13 @@ export default class MoviesScreen extends Screen {
           data={state.movies}
           renderItem={item => (
             <MoviePreview title={item.title}
-              onClick={() => this.setState({
-                movieInfoVisible: true,
-                movieInfoMovieId: item.id
-              })}
+              onClick={() => {
+                ScreenStack.mounted.push(MovieInfoScreen, {
+                  movieId: item.id
+                })
+              }}
               pictureSrc={item.pictureUri} />
           )}
-        />
-        <MovieInfoScreen
-          movieId={state.movieInfoMovieId}
-          visible={state.movieInfoVisible}
         />
       </div>
     )

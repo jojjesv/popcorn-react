@@ -8,6 +8,7 @@ import Utils from '../../Utils';
 import GridList from '../../common/grid_list';
 import ActorPreview from '../../common/actor_preview';
 import ActorInfoScreen from '../actor_info';
+import ScreenStack from '../../common/screen/ScreenStack';
 
 /**
  * Screen which shows info about a specific movie.
@@ -70,50 +71,44 @@ export default class MovieInfoScreen extends Screen {
 
     return (
       <div className="movie-info">
-        <header className="hero" style={{
-          backgroundImage: `url(${data.pictureUri})`
-        }}>
-          <h2 className="title">{data.title}</h2>
-        </header>
-        <section className="info">
-          <ul className="specs">
-            <li>Runtime: {Utils.minutesToTimeString(data.runtime)}</li>
-            <li>Runtime: {Utils.minutesToTimeString(data.runtime)}</li>
-          </ul>
-
-          <h3>Cast ({data.cast.length})</h3>
-          <div>
-            <GridList
-              data={data.cast}
-              renderItem={actor => (
-                <ActorPreview
-                  name={actor.name}
-                  pictureSrc={actor.pictureUri}
-                  onClick={() => this.setState({
-                    actorInfoVisible: true,
-                    actorInfoData: actor
-                  })}
-                />
-              )}
-            />
-          </div>
-        </section>
-      </div>
-    )
-  }
-
-  render() {
-    let { state } = this;
-
-    return (
-      <div>
         {
-          super.render()
+          data ? (
+            <div>
+              <header className="hero" style={{
+                backgroundImage: `url(${data.pictureUri})`
+              }}>
+                <h2 className="title">{data.title}</h2>
+              </header>
+              <section className="info">
+                <ul className="specs">
+                  <li>Runtime: {Utils.minutesToTimeString(data.runtime)}</li>
+                  <li>Runtime: {Utils.minutesToTimeString(data.runtime)}</li>
+                </ul>
+
+                <h3>Cast ({data.cast.length})</h3>
+                <div>
+                  <GridList
+                    data={data.cast}
+                    renderItem={actor => (
+                      <ActorPreview
+                        name={actor.name}
+                        pictureSrc={actor.pictureUri}
+                        onClick={() => {
+                          ScreenStack.mounted.push(ActorInfoScreen, {
+                            name: actor.name,
+                            pictureSrc: actor.pictureUri
+                          })
+                        }}
+                      />
+                    )}
+                  />
+                </div>
+              </section>
+            </div>
+          ) : (
+              <div></div>
+            )
         }
-        <ActorInfoScreen
-          visible={state.actorInfoVisible}
-          data={state.actorInfoData}
-        />
       </div>
     )
   }

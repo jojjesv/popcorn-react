@@ -12,6 +12,9 @@ let _mounted = null;
  * @author Johan Svensson
  */
 export default class extends React.Component {
+  /**
+   * @returns {ScreenStack}
+   */
   static get mounted() {
     return _mounted
   }
@@ -44,7 +47,10 @@ export default class extends React.Component {
    * @param {number} index Index of screen to remove.
    */
   remove(index) {
-    this.set()
+    this.setState(o => {
+      o.stack = o.stack.filter((e, i) => i != index);
+      return o;
+    })
   }
 
   componentDidMount() {
@@ -64,13 +70,13 @@ export default class extends React.Component {
         {
           state.stack.map((s, i, a) => {
             const Screen = s.screen;
-            let title = Screen.getTitle();
+            let title = "getTitle" in Screen ? Screen.getTitle() : Screen.name;
 
             return (
               <Screen
                 {...s.props}
                 visible={s.visible}
-                onBackPressed={this.set} />
+                onBackPressed={() => this.remove(i)} />
             )
           })
         }

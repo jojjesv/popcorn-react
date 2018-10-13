@@ -4,6 +4,7 @@ import MovieInfoScreen from '../movie_info';
 import Movie from '../../models/Movie';
 import GridList from '../../common/grid_list';
 import MoviePreview from '../../common/movie_preview';
+import ScreenStack from '../../common/screen/ScreenStack';
 
 /**
  * Screen which shows info about a specific actor.
@@ -11,8 +12,6 @@ import MoviePreview from '../../common/movie_preview';
  */
 export default class ActorInfoScreen extends Screen {
   state = {
-    movieInfoVisible: false,
-    movieInfoMovieId: null,
     fetching: false,
     associatedMovies: []
   }
@@ -50,35 +49,17 @@ export default class ActorInfoScreen extends Screen {
           data={state.associatedMovies}
           renderItem={movie => (
             <MoviePreview
-              data={movie}
-              onClick={() => this.setState({
-                movieInfoVisible: true,
-                movieInfoMovieId: movie.id
-              })}
+              title={movie.title}
+              pictureSrc={movie.pictureUri}
+              onClick={() => {
+                ScreenStack.mounted.push(MovieInfoScreen, {
+                  movieId: movie.id
+                })
+              }}
             />
           )}
         />
       </section>
-    )
-  }
-
-  render() {
-    let { state } = this;
-
-    let MovieInfoScreenComponent = state.movieInfoVisible ? MovieInfoScreen : null;
-    return (
-      <div>
-        {
-          super.render()
-        }
-        {
-          MovieInfoScreenComponent &&
-          <MovieInfoScreenComponent
-            visible={state.movieInfoVisible}
-            movieId={state.movieInfoMovieId}
-          />
-        }
-      </div>
     )
   }
 }
