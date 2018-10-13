@@ -1,0 +1,32 @@
+.grid-list {
+  .item {
+    display: inline-block;
+    width: 96px;
+    height: 120px;
+    margin: 8px;
+    padding: 18px;
+    border-radius: 3px;
+
+    &:hover {
+      background: rgba(20, 20, 20, 0.05);
+    }
+  }
+
+  .grid-img {
+    width: 80px;
+    display: block;
+    margin: 0 auto;
+    height: 96px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .grid-label {
+    text-align: center;
+    margin: 0;
+    font-size: 15px;
+    color: #616161;
+    font-weight: 400;
+  }
+}
