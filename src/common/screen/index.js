@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import classNames from 'classnames';
+
 import './styles.scss';
 
 /**
@@ -10,7 +12,10 @@ import './styles.scss';
 export default class Screen extends React.Component {
   static propTypes = {
     visible: PropTypes.bool,
-    backTitle: PropTypes.string,
+    new: PropTypes.bool,
+    nodeRef: PropTypes.func,
+    behind: PropTypes.bool,
+    previousScreenTitle: PropTypes.string,
     onBackPressed: PropTypes.func
   };
 
@@ -25,16 +30,17 @@ export default class Screen extends React.Component {
   render() {
     let { props } = this;
 
-    if (!props.visible) {
-      return null;
-    }
-
     return (
-      <section className="screen">
+      <section className={classNames({
+        screen: true,
+        visible: props.visible,
+        behind: props.behind,
+        new: props.new
+      })} ref={props.nodeRef}>
         {
           props.onBackPressed && (
             <header>
-              <button onClick={() => props.onBackPressed()}>Tillbaka</button>
+              <button onClick={() => props.onBackPressed()}>{props.previousScreenTitle}</button>
             </header>
           )
         }
@@ -43,7 +49,7 @@ export default class Screen extends React.Component {
             this.renderContent()
           }
         </div>
-      </section>
+      </section >
     )
   }
 }

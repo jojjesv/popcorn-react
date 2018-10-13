@@ -6,11 +6,18 @@ import GridList from '../../common/grid_list';
 import MoviePreview from '../../common/movie_preview';
 import ScreenStack from '../../common/screen/ScreenStack';
 
+import PropTypes from 'prop-types';
+import Actor from '../../models/Actor';
+
 /**
  * Screen which shows info about a specific actor.
  * @author Johan Svensson
  */
 export default class ActorInfoScreen extends Screen {
+  static propTypes = {
+    data: PropTypes.instanceOf(Actor)
+  }
+
   state = {
     fetching: false,
     associatedMovies: []
@@ -39,11 +46,14 @@ export default class ActorInfoScreen extends Screen {
   }
 
   renderContent() {
-    let { state } = this;
+    let { state, props } = this;
 
     return (
       <section className="actor-info">
-        <div role="img" className="profile-picture"></div>
+        <div role="img" className="profile-picture" style={{
+          backgroundImage: `url(${state.fetchedData})`
+        }}>
+        </div>
 
         <GridList
           data={state.associatedMovies}

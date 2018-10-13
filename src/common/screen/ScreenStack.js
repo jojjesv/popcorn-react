@@ -26,12 +26,16 @@ export default class extends React.Component {
     stack: []
   }
 
+  //  Used to check whether the top screen is a new one
+  topScreenIsNew = false;
+
   /**
    * Pushes a new screen into the stack.
    * @param {Screen} screenComponent 
    * @param {any} props 
    */
   push(screenComponent, props = {}) {
+    this.topScreenIsNew = true;
     this.setState(o => {
       o.stack.push({
         screen: screenComponent,
@@ -39,6 +43,8 @@ export default class extends React.Component {
         visible: true
       });
       return o;
+    }, () => {
+      this.topScreenIsNew = false;
     })
   }
 
@@ -46,9 +52,18 @@ export default class extends React.Component {
    * Removes a screen off the stack.
    * @param {number} index Index of screen to remove.
    */
-  remove(index) {
+  remove(index, fully = false) {
     this.setState(o => {
-      o.stack = o.stack.filter((e, i) => i != index);
+      if (fully) {
+        o.stack = o.stack.filter((e, i) => i != index);
+      } else {
+        o.stack[index].visible = false;
+
+        //  Oh how I wish I could use animationend event
+        setTimeout(() => {
+          this.remove(index, true);
+        }, 600);
+      }
       return o;
     })
   }
@@ -66,17 +81,25 @@ export default class extends React.Component {
   render() {
     let { props, state } = this;
     return (
-      <div>
+      <div id="screen-stack">
         {
           state.stack.map((s, i, a) => {
             const Screen = s.screen;
-            let title = "getTitle" in Screen ? Screen.getTitle() : Screen.name;
+
+            const prevScreen = i > 0 ? a[i - 1].screen : null;
+            let prevScreenTitle = prevScreen ? "getTitle" in prevScreen ?
+              prevScreen.getTitle() : prevScreen.name
+              : null;
 
             return (
               <Screen
                 {...s.props}
+                key={s.screen.name}
+                new={this.topScreenIsNew && i == a.length - 1}
+                behind={i < a.length - 1 && a[i + 1].visible}
                 visible={s.visible}
-                onBackPressed={() => this.remove(i)} />
+                previousScreenTitle={prevScreenTitle}
+                onBackPressed={i > 0 ? () => this.remove(i) : undefined} />
             )
           })
         }
