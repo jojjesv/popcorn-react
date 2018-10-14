@@ -9,6 +9,8 @@ import ScreenStack from '../../common/screen/ScreenStack';
 import PropTypes from 'prop-types';
 import Actor from '../../models/Actor';
 
+import './styles.scss';
+
 /**
  * Screen which shows info about a specific actor.
  * @author Johan Svensson
@@ -50,11 +52,17 @@ export default class ActorInfoScreen extends Screen {
 
     return (
       <section className="actor-info">
-        <div role="img" className="profile-picture" style={{
-          backgroundImage: `url(${state.fetchedData})`
-        }}>
+        <div className="info">
+          <div role="img" className="profile-picture" style={{
+            backgroundImage: `url(${props.data.pictureUri})`
+          }}>
+          </div>
+          <div>
+            <h2 className="name">{props.data.name}</h2>
+          </div>
         </div>
 
+        <h3>Movies{state.fetching ? "" : ` (${state.associatedMovies.length})`}</h3>
         <GridList
           data={state.associatedMovies}
           renderItem={movie => (

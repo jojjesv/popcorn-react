@@ -1,0 +1,23 @@
+.actor-info {
+  $img-size: 180px;
+
+  /* Personal info */
+  .info {
+    text-align: center;
+  }
+
+  .profile-picture {
+    width: $img-size;
+    height: $img-size;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: auto;
+  }
+
+  .name {
+    font-size: 28px;
+    font-weight: 200;
+    margin: 12px 0 18px 0;
+  }
+}
