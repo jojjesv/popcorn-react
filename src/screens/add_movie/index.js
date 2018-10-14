@@ -35,7 +35,7 @@ export default class AddMovieScreen extends Screen {
       try {
 
         let { result } = await Backend.request(
-          `/movies/getByImdbId/${imdbId}`
+          `/movieFromImdb/${imdbId}`
         );
         if (result == "noMatch") {
           Notification.showWithFirstShared("IMdb record not found.");
