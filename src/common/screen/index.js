@@ -43,13 +43,15 @@ export default class Screen extends React.Component {
         {
           renderHeader && (
             <header>
-              {
-                props.onBackPressed ? (
-                  <button className="back-nav" onClick={() => props.onBackPressed()}>
-                    <img alt="" src={require('../../assets/ic_back.png')} />{props.previousScreenTitle}
-                  </button>
-                ) : null
-              }
+              <div>
+                {
+                  props.onBackPressed ? (
+                    <button className="back-nav" onClick={() => props.onBackPressed()}>
+                      <img alt="" src={require('../../assets/ic_back.png')} />{props.previousScreenTitle}
+                    </button>
+                  ) : null
+                }
+              </div>
               {
                 headerExtra
               }

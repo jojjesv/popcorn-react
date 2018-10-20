@@ -47,14 +47,13 @@
   header {
     padding-top: 8px;
     height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
     /* Extra button in header */
     .extra-btn {
       box-sizing: border-box;
-      position: absolute;
-      right: $header-button-side-margin;
-
-      &,
       img {
         height: 18px;
       }
