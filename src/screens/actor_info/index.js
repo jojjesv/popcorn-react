@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import Actor from '../../models/Actor';
 
 import './styles.scss';
+import Backend from '../../Backend';
 
 /**
  * Screen which shows info about a specific actor.
@@ -21,7 +22,7 @@ export default class ActorInfoScreen extends Screen {
   }
 
   state = {
-    fetching: false,
+    fetchingAssocMovies: false,
     associatedMovies: []
   }
 
@@ -33,15 +34,19 @@ export default class ActorInfoScreen extends Screen {
    * Fetches associated movies for this actor.
    */
   async fetch() {
-    /**
-     * @type {Movie[]}
-     */
-    let associatedMovies = [
-      {
-        title: 'Guardians of the galaxy vol 2',
-        pictureUri: 'https://via.placeholder.com/350x150'
-      }
-    ]
+    let { state, props } = this;
+    if (state.fetchingAssocMovies) {
+      return;
+    }
+
+    this.setState({
+      fetchingAssocMovies: true
+    });
+
+    let associatedMovies = await Backend.request(
+      `/moviesFromActor/${props.id}`
+    );
+    
     this.setState({
       associatedMovies
     })
@@ -62,7 +67,7 @@ export default class ActorInfoScreen extends Screen {
           </div>
         </div>
 
-        <h3>Movies{state.fetching ? "" : ` (${state.associatedMovies.length})`}</h3>
+        <h3>Movies{state.fetchingAssocMovies ? "" : ` (${state.associatedMovies.length})`}</h3>
         <GridList
           data={state.associatedMovies}
           renderItem={movie => (

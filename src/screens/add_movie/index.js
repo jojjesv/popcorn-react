@@ -135,7 +135,8 @@ export default class AddMovieScreen extends Screen {
             </div>
             <div className="field">
               <label for="add-movie-year">Year</label>
-              <input id="add-movie-year" type="text" name="year" disabled={!inputEnabled}
+              <input id="add-movie-year" type="text" name="year"
+                disabled={!inputEnabled} maxLength="4"
                 style={{ width: 56 }} />
             </div>
           </div>

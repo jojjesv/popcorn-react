@@ -21,5 +21,84 @@
       "title": "Goosebumps 2: Haunted Halloween",
       "pictureUri": "https://upload.wikimedia.org/wikipedia/en/thumb/5/59/Goosebumps_2_Haunted_Halloween_%282018%29_poster.jpg/220px-Goosebumps_2_Haunted_Halloween_%282018%29_poster.jpg"
     }
+  ],
+  "moviesFromActor": [
+    {
+      "id": 1,
+      "title": "Guardians of the Galaxy vol. 2",
+      "pictureUri": "https://images-na.ssl-images-amazon.com/images/I/61sgAyzCGJL.jpg"
+    },
+    {
+      "id": 2,
+      "title": "It (2017)",
+      "pictureUri": "https://images-na.ssl-images-amazon.com/images/I/61bMkkwpduL._SY679_.jpg"
+    },
+    {
+      "id": 3,
+      "title": "Goosebumps 2: Haunted Halloween",
+      "pictureUri": "https://upload.wikimedia.org/wikipedia/en/thumb/5/59/Goosebumps_2_Haunted_Halloween_%282018%29_poster.jpg/220px-Goosebumps_2_Haunted_Halloween_%282018%29_poster.jpg"
+    }
+  ],
+  "movie": [
+    {
+      "id": 1,
+      "title": "Guardians of the Galaxy vol. 2",
+      "pictureUri": "https://images-na.ssl-images-amazon.com/images/I/61sgAyzCGJL.jpg",
+      "runtime": 120,
+      "cast": [
+        {
+          "name": "Hampus Selin",
+          "pictureUri": "https://media.licdn.com/dms/image/C4D03AQG81hOlsxCCrA/profile-displayphoto-shrink_200_200/0?e=1543449600&v=beta&t=B-AipJE0BQCo-6K44yN2lwrn8GUPXWnJOFwzgV2PeMY"
+        },
+        {
+          "name": "Patrick Stewart",
+          "pictureUri": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Patrick_Stewart_Photo_Call_Logan_Berlinale_2017_%28cropped%29.jpg/220px-Patrick_Stewart_Photo_Call_Logan_Berlinale_2017_%28cropped%29.jpg"
+        },
+        {
+          "name": "Will Smith",
+          "pictureUri": "https://m.media-amazon.com/images/M/MV5BNTczMzk1MjU1MV5BMl5BanBnXkFtZTcwNDk2MzAyMg@@._V1_UY317_CR2,0,214,317_AL_.jpg"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "It (2017)",
+      "pictureUri": "https://images-na.ssl-images-amazon.com/images/I/61bMkkwpduL._SY679_.jpg",
+      "runtime": 110,
+      "cast": [
+        {
+          "name": "Hampus Selin",
+          "pictureUri": "https://media.licdn.com/dms/image/C4D03AQG81hOlsxCCrA/profile-displayphoto-shrink_200_200/0?e=1543449600&v=beta&t=B-AipJE0BQCo-6K44yN2lwrn8GUPXWnJOFwzgV2PeMY"
+        },
+        {
+          "name": "Patrick Stewart",
+          "pictureUri": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Patrick_Stewart_Photo_Call_Logan_Berlinale_2017_%28cropped%29.jpg/220px-Patrick_Stewart_Photo_Call_Logan_Berlinale_2017_%28cropped%29.jpg"
+        },
+        {
+          "name": "Will Smith",
+          "pictureUri": "https://m.media-amazon.com/images/M/MV5BNTczMzk1MjU1MV5BMl5BanBnXkFtZTcwNDk2MzAyMg@@._V1_UY317_CR2,0,214,317_AL_.jpg"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Goosebumps 2: Haunted Halloween",
+      "pictureUri": "https://upload.wikimedia.org/wikipedia/en/thumb/5/59/Goosebumps_2_Haunted_Halloween_%282018%29_poster.jpg/220px-Goosebumps_2_Haunted_Halloween_%282018%29_poster.jpg",
+      "runtime": 140,
+      "cast": [
+        {
+          "name": "Hampus Selin",
+          "pictureUri": "https://media.licdn.com/dms/image/C4D03AQG81hOlsxCCrA/profile-displayphoto-shrink_200_200/0?e=1543449600&v=beta&t=B-AipJE0BQCo-6K44yN2lwrn8GUPXWnJOFwzgV2PeMY"
+        },
+        {
+          "name": "Patrick Stewart",
+          "pictureUri": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Patrick_Stewart_Photo_Call_Logan_Berlinale_2017_%28cropped%29.jpg/220px-Patrick_Stewart_Photo_Call_Logan_Berlinale_2017_%28cropped%29.jpg"
+        },
+        {
+          "name": "Will Smith",
+          "pictureUri": "https://m.media-amazon.com/images/M/MV5BNTczMzk1MjU1MV5BMl5BanBnXkFtZTcwNDk2MzAyMg@@._V1_UY317_CR2,0,214,317_AL_.jpg"
+        }
+      ]
+    }
   ]
 }

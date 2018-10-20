@@ -12,7 +12,7 @@ class App extends Component {
             e.push(MoviesScreen, {}, "All movies");
           }
         }} />
-        <Notification />
+        <Notification shared={true} />
       </div>
     );
   }

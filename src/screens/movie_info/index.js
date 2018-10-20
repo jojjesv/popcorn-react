@@ -9,6 +9,8 @@ import GridList from '../../common/grid_list';
 import ActorPreview from '../../common/actor_preview';
 import ActorInfoScreen from '../actor_info';
 import ScreenStack from '../../common/screen/ScreenStack';
+import Backend from '../../Backend';
+import TaskIndicator from '../../common/task_indicator';
 
 /**
  * Screen which shows info about a specific movie.
@@ -38,26 +40,18 @@ export default class MovieInfoScreen extends Screen {
    * Fetches movie info.
    */
   async fetch() {
-    /**
-     * @type {Movie}
-     */
-    let data = {
-      id: 1,
-      pictureUri: 'https://via.placeholder.com/350x150',
-      runtime: 150,
-      score: 9.5,
-      title: 'Guardians of the galaxy vol. 2',
-      cast: [{
-        name: 'Bruce Willis',
-        pictureUri: 'https://via.placeholder.com/64x64',
-      }, {
-        name: 'Johnny Depp',
-        pictureUri: 'https://via.placeholder.com/64x64',
-      }, {
-        name: 'Hampus Selin',
-        pictureUri: 'https://via.placeholder.com/64x64',
-      }]
+    let { state, props } = this;
+    if (state.fetchingData) {
+      return;
     }
+
+    this.setState({
+      fetchingData: true
+    });
+
+    let data = await Backend.request(
+      `/movie/${props.movieId}`
+    );
 
     this.setState({
       data,
@@ -82,7 +76,7 @@ export default class MovieInfoScreen extends Screen {
               <section className="info">
                 <ul className="specs">
                   <li>Runtime: {Utils.minutesToTimeString(data.runtime)}</li>
-                  <li>Runtime: {Utils.minutesToTimeString(data.runtime)}</li>
+                  <li>Score: {data.score}</li>
                 </ul>
 
                 <h3>Cast ({data.cast.length})</h3>
@@ -95,8 +89,7 @@ export default class MovieInfoScreen extends Screen {
                         pictureSrc={actor.pictureUri}
                         onClick={() => {
                           ScreenStack.mounted.push(ActorInfoScreen, {
-                            name: actor.name,
-                            pictureSrc: actor.pictureUri
+                            data: actor
                           }, actor.name)
                         }}
                       />
@@ -106,7 +99,9 @@ export default class MovieInfoScreen extends Screen {
               </section>
             </div>
           ) : (
-              <div></div>
+              <div>
+                <TaskIndicator />
+              </div>
             )
         }
       </div>

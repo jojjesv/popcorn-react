@@ -8,7 +8,19 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+button {
+  
+}
+
+*.center {
+  text-align: center;
+}
+
+h1.thin,
+h2.thin {
+  font-weight: 300;
+}
+
+span img {
+  vertical-align: middle;
 }
