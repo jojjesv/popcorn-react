@@ -1,4 +1,5 @@
 import 'whatwg-fetch';
+import Utils from './Utils';
 
 let dev = document.location.origin.indexOf('localhost') != -1;
 
@@ -16,7 +17,7 @@ export default class Backend {
    * @param {string} path 
    */
   static async get(path) {
-    return this.request(path, null, 'get');
+    return await this.request(path, null, 'get');
   }
 
   /**
@@ -24,7 +25,7 @@ export default class Backend {
    * @param {string} path 
    */
   static async post(path, body) {
-    return this.request(path, body, 'post');
+    return await this.request(path, body, 'post');
   }
 
   /**
@@ -40,7 +41,7 @@ export default class Backend {
    * @param {string} path 
    */
   static async delete(path) {
-    return this.request(path, null, 'get');
+    return await this.request(path, null, 'get');
   }
 
   /**
@@ -50,9 +51,13 @@ export default class Backend {
    * @param {"get"|"post"|"put"|"delete"} method HTTP method
    */
   static async request(path, body, method) {
+    if (body instanceof FormData) {
+      body = Utils.formDataToObject(body);
+    }
+
     let useGet = !body || Object.keys(body).length == 0;
 
-    if (useGet) {
+    if (method == null && useGet) {
       method = 'get';
     }
 
