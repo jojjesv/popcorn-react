@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './styles.scss';
+import './derived.scss';
 
 /** 
  * Common grid list. Imitates React Native's FlatList prop-wise.

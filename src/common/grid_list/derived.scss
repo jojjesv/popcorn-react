@@ -1,0 +1,13 @@
+.grid-img {
+  &.pictureless {
+    /* Should show a placeholder picture */
+    background: #e0e0e0;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 36px auto;
+
+    &.movie-preview-img {
+      background-image: url(../../assets/ic_movie_placeholder.png);
+    }
+  }
+}
