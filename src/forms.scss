@@ -8,7 +8,7 @@ button {
   font-size: 14px;
   color: #d84315;
 
-  &:not(.busy) {
+  &:not(.busy):not([disabled]) {
     &:hover {
       opacity: 0.75;
     }
@@ -17,6 +17,10 @@ button {
       transition-duration: 50ms;
       opacity: 0.35;
     }
+  }
+
+  &[disabled] {
+    opacity: 0.35;
   }
 
   &.busy {
@@ -29,77 +33,91 @@ button {
   }
 }
 
-form {
-  /* Couldn't get grid to work on regular fieldsets */
-  fieldset,
-  .fieldset {
-    display: grid;
-    grid-template-columns: auto auto;
-  }
+/* Should look like a regular label if disabled. */
+input.editable {
+  font-size: 15px;
+  color: #424242;
 
-  .spanned {
-    grid-column: 1 / span 2;
-  }
-  .field {
-    margin: 6px 0;
-  }
-
-  .inline-label {
-    margin: 0;
-    display: inline-block;
-    margin-left: 6px;
-    color: #757575;
-  }
-
-  .fieldset,
-  fieldset {
-    padding: 0;
-    border: none;
-    margin: 18px 0;
-  }
-
-  label,
-  .inline-label {
-    vertical-align: top;
-    margin-top: 6px;
-  }
-
-  label {
-    width: 80px;
-    display: inline-block;
-    margin-right: 8px;
-    text-align: right;
-  }
-
-  input[type="text"],
-  textarea,
-  input[type="password"] {
-    border: 1px solid #e0e0e0;
-    padding: 6px 12px;
-    width: 180px;
-    font-size: 15px;
-    resize: none;
-    vertical-align: top;
-    color: #424242;
-    border-radius: 8px;
-    outline: none !important;
-
-    &:focus {
-      border-color: #9e9e9e;
+  &[disabled] {
+    .hoverable {
+      &:not(:hover) {
+        border: none;
+      }
     }
-
-    &.large {
-      height: 80px;
-    }
-
-    &[disabled] {
-      opacity: 0.75;
+    &:not(.hoverable) {
+      border: none;
     }
   }
+}
 
-  textarea {
+/* Couldn't get grid to work on regular fieldsets */
+fieldset,
+.fieldset {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.spanned {
+  grid-column: 1 / span 2;
+}
+.field {
+  margin: 6px 0;
+}
+
+.inline-label {
+  margin: 0;
+  display: inline-block;
+  margin-left: 6px;
+  color: #757575;
+}
+
+.fieldset,
+fieldset {
+  padding: 0;
+  border: none;
+  margin: 18px 0;
+}
+
+label,
+.inline-label {
+  vertical-align: top;
+  margin-top: 6px;
+}
+
+label {
+  width: 80px;
+  display: inline-block;
+  margin-right: 8px;
+  text-align: right;
+}
+
+input,
+textarea {
+  border: 1px solid #e0e0e0;
+  padding: 6px 12px;
+  width: 180px;
+  font-size: 15px;
+  resize: none;
+  vertical-align: top;
+  color: #424242;
+  border-radius: 8px;
+  outline: none !important;
+
+  &:focus {
+    border-color: #9e9e9e;
+  }
+
+  &.large {
     height: 80px;
   }
+
+  &[disabled] {
+    opacity: 0.75;
+  }
+}
+
+textarea {
+  height: 80px;
 }
 
 .note {

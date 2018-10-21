@@ -19,6 +19,8 @@ export default class Screen extends React.Component {
     onBackPressed: PropTypes.func
   };
 
+  backNavigationDisabled = () => false
+
   renderContent() {
     return null;
   }
@@ -28,7 +30,7 @@ export default class Screen extends React.Component {
   }
 
   render() {
-    let { props } = this;
+    let { props, backNavigationDisabled } = this;
 
     let headerExtra = this.renderHeaderExtraContent();
     let renderHeader = !!props.onBackPressed || !!headerExtra;
@@ -46,7 +48,8 @@ export default class Screen extends React.Component {
               <div>
                 {
                   props.onBackPressed ? (
-                    <button className="back-nav" onClick={() => props.onBackPressed()}>
+                    <button className="back-nav" disabled={backNavigationDisabled()}
+                      onClick={() => props.onBackPressed()}>
                       <img alt="" src={require('../../assets/ic_back.png')} />{props.previousScreenTitle}
                     </button>
                   ) : null

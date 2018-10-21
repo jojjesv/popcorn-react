@@ -9,4 +9,9 @@ export default class {
   score
   cast
   pictureUri
+  categories
+  possessor
+  plot
+  year
+  ageRating
 }

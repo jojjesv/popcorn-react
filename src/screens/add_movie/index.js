@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import Backend from '../../Backend';
 import Utils from '../../Utils';
 import Notification from '../../common/notification';
+import service from './service';
 
 /**
  * Screen for adding a movie.
@@ -31,32 +32,37 @@ export default class AddMovieScreen extends Screen {
       fetchingMovieByImdbId: true
     });
 
-    while (true) {
-      try {
+    let result = await service.fetchMovieByImdbId(imdbId);
+    if (result == "noMatch") {
+      Notification.showWithFirstShared("IMdb record not found.");
 
-        let { result } = await Backend.request(
-          `/movieFromImdb/${imdbId}`
-        );
-        if (result == "noMatch") {
-          Notification.showWithFirstShared("IMdb record not found.");
-
-          this.setState({
-            fetchingMovieByImdbId: false
-          });
-          return;
-        }
-
-      } catch (e) {
-        //  Wait a little before trying again
-        await Utils.sleep(2500);
-      }
-    }
-
-    setTimeout(() => {
       this.setState({
         fetchingMovieByImdbId: false
-      })
-    }, 2500);
+      });
+      return;
+    }
+
+    this.setState({
+      fetchingMovieByImdbId: false
+    });
+
+    this.populateFields(result);
+  }
+
+  /**
+   * Populates the input fields with data.
+   * @param {Movie} data 
+   */
+  populateFields(data) {
+    //  Sets the value of a node
+    const set = (id, val) => document.getElementById(id).value = val;
+
+    set("add-movie-title", data.title);
+    set("add-movie-plot", data.plot);
+    set("add-movie-age-rating", data.ageRating);
+    set("add-movie-categories", (data.categories || []).map(c => c.toLowerCase()).join(","));
+    set("add-movie-score", data.score);
+    set("add-movie-runtime", data.runtime);
   }
 
   /**
@@ -73,12 +79,21 @@ export default class AddMovieScreen extends Screen {
       submitting: true
     });
 
-    let data = new FormData(document.getElementById("add-movie-form"));
-
-    let result = await Backend.request(
-      "/movies/add",
-      data
+    let result = await service.submit(
+      new FormData(document.getElementById("add-movie-form"))
     );
+
+    this.setState({
+      submitting: false
+    });
+
+    if (result.validationError) {
+      return this.onValidationError(result.validationError)
+    }
+  }
+
+  onValidationError(msg) {
+    Notification.showWithFirstShared("Validation error: " + msg);
   }
 
   renderContent() {
@@ -93,7 +108,8 @@ export default class AddMovieScreen extends Screen {
             <div className="field">
               <div>
                 <label for="add-movie-imdb-id">IMdb ID</label>
-                <input id="add-movie-imdb-id" type="text" disabled={!inputEnabled} />
+                <input id="add-movie-imdb-id" type="text" disabled={!inputEnabled}
+                  maxLength="12" />
                 <button className={classNames({
                   busy: state.fetchingMovieByImdbId
                 })} onClick={e => {
@@ -114,7 +130,7 @@ export default class AddMovieScreen extends Screen {
             </div>
             <div className="field">
               <label for="add-movie-age-rating">Age rating</label>
-              <input id="add-movie-age-rating" type="text" name="age-rating" disabled={!inputEnabled}
+              <input id="add-movie-age-rating" type="text" name="age_rating" disabled={!inputEnabled}
                 style={{ width: 56 }} />
             </div>
             <div className="field">
@@ -129,8 +145,8 @@ export default class AddMovieScreen extends Screen {
               <p className="inline-label">minutes</p>
             </div>
             <div className="field">
-              <label for="add-movie-year">Plot</label>
-              <textarea id="add-movie-year" disabled={!inputEnabled}
+              <label for="add-movie-plot">Plot</label>
+              <textarea id="add-movie-plot" disabled={!inputEnabled}
                 name="plot"></textarea>
             </div>
             <div className="field">
@@ -138,6 +154,13 @@ export default class AddMovieScreen extends Screen {
               <input id="add-movie-year" type="text" name="year"
                 disabled={!inputEnabled} maxLength="4"
                 style={{ width: 56 }} />
+            </div>
+            <div className="field">
+              <label for="add-movie-score">Score</label>
+              <input id="add-movie-score" type="text" name="score"
+                disabled={!inputEnabled} maxLength="3"
+                style={{ width: 56 }} />
+              <p className="inline-label">/ 10</p>
             </div>
           </div>
           <div style={{ textAlign: 'center' }}>

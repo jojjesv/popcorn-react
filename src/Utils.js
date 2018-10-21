@@ -25,5 +25,21 @@ export default {
     return new Promise(resolve => {
       setTimeout(resolve, ms)
     })
+  },
+
+  /**
+   * Converts a FormData instance to a JSON object.
+   * @param {FormData} data 
+   */
+  formDataToObject(data) {
+    let obj = {};
+    data.forEach((v, k) => {
+      obj[k] = v;
+    })
+    return obj;
+  },
+
+  isEmpty(obj) {
+    return Object.keys(obj).length == 0;
   }
 }
