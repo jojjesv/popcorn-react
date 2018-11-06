@@ -9,7 +9,7 @@ let dev = document.location.origin.indexOf('localhost') != -1;
  */
 export default class Backend {
   static get baseUrl() {
-    return `${dev ? 'http://192.168.98.96:3001' : document.location.origin.replace(":3000", ":3001")}/api`;
+    return `${dev ? 'http://af8125ec.ngrok.io' : document.location.origin.replace(":3000", ":3001")}/api`;
   }
 
   /**
@@ -41,7 +41,7 @@ export default class Backend {
    * @param {string} path 
    */
   static async delete(path) {
-    return await this.request(path, null, 'get');
+    return await this.request(path, null, 'delete');
   }
 
   /**

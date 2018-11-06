@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import classNames from 'classnames';
+
 import './styles.scss';
 import './derived.scss';
 
@@ -12,7 +14,8 @@ export default class GridList extends React.Component {
   static propTypes = {
     renderItem: PropTypes.func.isRequired,
     data: PropTypes.array.isRequired,
-    keyExtractor: PropTypes.func
+    keyExtractor: PropTypes.func,
+    context: PropTypes.oneOf(['cast'])
   };
 
   render() {
@@ -21,7 +24,10 @@ export default class GridList extends React.Component {
     let { keyExtractor } = props;
 
     return (
-      <ul className="grid-list">
+      <ul className={classNames({
+        "grid-list": true,
+        "cast": props.context == "cast"
+      })}>
         {
           props.data.map((d, i) => (
             <li className="item" key={keyExtractor ? keyExtractor(d, i) : i.toString()}>

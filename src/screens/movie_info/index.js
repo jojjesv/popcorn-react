@@ -13,6 +13,7 @@ import ScreenStack from '../../common/screen/ScreenStack';
 import Backend from '../../Backend';
 import TaskIndicator from '../../common/task_indicator';
 import service from './service';
+import Modal from '../../common/modal';
 
 /**
  * Screen which shows info about a specific movie.
@@ -33,7 +34,9 @@ export default class MovieInfoScreen extends Screen {
     actorInfoVisible: false,
     actorInfoData: null,
     editMode: false,
-    saveBusy: false
+    saveBusy: false,
+    deleteMovieModalVisible: false,
+    deleteMovieBusy: false
   };
 
   /**
@@ -203,6 +206,29 @@ export default class MovieInfoScreen extends Screen {
     })
   }
 
+  /**
+   * Deletes the current movie.
+   */
+  async deleteMovie() {
+    let { state } = this;
+    let { data } = state;
+
+    if (state.deleteMovieBusy) {
+      //  Already busy
+      return;
+    }
+
+    this.setState({
+      deleteMovieBusy: true
+    });
+
+    let result = await Backend.delete(`/movie/${data.id}`);
+
+    this.setState({
+      deleteMovieBusy: false
+    });
+  }
+
   renderContent() {
     let { state, renderField } = this;
     let { data } = state;
@@ -212,10 +238,15 @@ export default class MovieInfoScreen extends Screen {
         {
           data ? (
             <div>
-              <header className="hero" style={{
+              <header className={classNames({
+                "hero": true,
+                "has-picture": !!data.pictureUri
+              })} style={{
                 backgroundImage: `url(${data.pictureUri})`
               }}>
+                <div className="gradient"></div>
                 <h2 className="title">{data.title} ({data.year})</h2>
+
               </header>
               <section className="info">
                 <ul className="specs">
@@ -227,17 +258,43 @@ export default class MovieInfoScreen extends Screen {
                   <li>{renderField('plot', data, 'book-open')}</li>
                 </ul>
 
+                {
+                  state.editMode ? (
+                    <div>
+                      <button
+                        className={classNames({
+                          "danger": true,
+                          "busy": false
+                        })}
+                        onClick={() => this.setState({ deleteMovieModalVisible: true })}>
+                        <span>Delete movie</span>
+                      </button>
+
+                      <DeleteMovieModal
+                        movieInfo={state.data}
+                        visible={state.deleteMovieModalVisible || state.deleteMovieBusy}
+                        busy={state.deleteMovieBusy}
+                        onRequestClose={() => this.setState({
+                          deleteMovieModalVisible: false
+                        })}
+                        onAccept={() => this.deleteMovie()} />
+                    </div>
+                  ) : null
+                }
+
                 <h3>Cast ({data.cast.length})</h3>
                 <div>
                   <GridList
                     data={data.cast}
+                    context="cast"
                     renderItem={actor => (
                       <ActorPreview
                         name={actor.name}
+                        role={actor.role}
                         pictureSrc={actor.pictureUri}
                         onClick={() => {
                           ScreenStack.mounted.push(ActorInfoScreen, {
-                            data: actor
+                            actor
                           }, actor.name)
                         }}
                       />
@@ -255,4 +312,43 @@ export default class MovieInfoScreen extends Screen {
       </div>
     )
   }
+}
+
+/**
+ * @param {DeleteMovieModalProps} props 
+ */
+const DeleteMovieModal = (props) => (
+  <Modal visible={props.visible} onRequestClose={props.onRequestClose}>
+    <div>
+      <h2 className="caption">Delete movie?</h2>
+      <p className="message">Are you sure you want to delete {props.movieInfo.title} ({props.movieInfo.year})?</p>
+      <div className="options">
+        <button className={classNames({
+          "accept": true,
+          "busy": props.busy
+        })} onClick={props.onAccept}>Yes</button>
+        <button className="decline" onClick={props.onRequestClose}>Cancel</button>
+      </div>
+    </div>
+  </Modal>
+)
+
+class DeleteMovieModalProps {
+  visible = false;
+  busy = false;
+
+  /**
+   * @type {Movie}
+   */
+  movieInfo;
+
+  /**
+   * @type {void}
+   */
+  onRequestClose;
+
+  /**
+   * @type {void}
+   */
+  onAccept;
 }

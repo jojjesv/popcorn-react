@@ -1,0 +1,52 @@
+/* Movies search field. */
+#movies-search {
+  width: 0;
+  box-sizing: border-box;
+  transition: all 250ms cubic-bezier(0.215, 0.61, 0.355, 1);
+
+  &.expanded {
+    width: 204px;
+    margin-right: 8px;
+  }
+
+  &:not(.expanded) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  &:not(.has-dropdown) + #movies-search-dropdown {
+    opacity: 0;
+    transform: translateY(-36px);
+    pointer-events: none;
+  }
+}
+
+#movies-search-dropdown {
+  pointer-events: all;
+  opacity: 1;
+  transform: none;
+  transition: all 250ms cubic-bezier(0.215, 0.61, 0.355, 1);
+  position: absolute;
+  box-shadow: 0 0 8px rgba(20, 20, 20, 0.25);
+  padding: 18px 0;
+  left: 36px;
+  border-radius: 3px;
+  z-index: 99;
+  background: white;
+
+  li {
+    display: block;
+  
+    a {
+      display: block;
+      padding: 8px 18px;
+      color: #424242;
+      font-weight: 300;
+
+      &:hover {
+        background: #f5f5f5;
+        cursor: pointer;
+      }
+    }
+  }
+}

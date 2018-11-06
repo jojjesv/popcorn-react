@@ -9,8 +9,12 @@ import ScreenStack from '../../common/screen/ScreenStack';
 import PropTypes from 'prop-types';
 import Actor from '../../models/Actor';
 
+import classNames from 'classnames';
+
 import './styles.scss';
 import Backend from '../../Backend';
+import TaskIndicator from '../../common/task_indicator';
+import Utils from '../../Utils';
 
 /**
  * Screen which shows info about a specific actor.
@@ -22,7 +26,7 @@ export default class ActorInfoScreen extends Screen {
   }
 
   state = {
-    fetchingAssocMovies: false,
+    fetching: false,
     associatedMovies: []
   }
 
@@ -39,49 +43,75 @@ export default class ActorInfoScreen extends Screen {
       return;
     }
 
+    let { actor } = props;
+
     this.setState({
-      fetchingAssocMovies: true
+      fetching: true
     });
 
-    let associatedMovies = await Backend.request(
-      `/moviesFromActor/${props.id}`
+    let { movies } = await Backend.get(
+      `/actor/${actor.id}`
     );
-    
+
     this.setState({
-      associatedMovies
+      associatedMovies: movies,
+      fetching: false
     })
   }
 
   renderContent() {
     let { state, props } = this;
 
+    let data = props.actor;
+    let pictureless = !data.pictureUri;
+
     return (
       <section className="actor-info">
         <div className="info">
-          <div role="img" className="profile-picture" style={{
-            backgroundImage: `url(${props.data.pictureUri})`
-          }}>
+          <div role="img"
+            className={classNames({
+              "profile-picture": true,
+              pictureless
+            })}
+            style={pictureless ? null : {
+              backgroundImage: `url(${data.pictureUri})`
+            }}>
+            {
+              pictureless ? (
+                <p>{Utils.nameInitials(data.name)}</p>
+              ) : null
+            }
           </div>
           <div>
-            <h2 className="name">{props.data.name}</h2>
+            <h2 className="name">{data.name}</h2>
           </div>
         </div>
 
-        <h3>Movies{state.fetchingAssocMovies ? "" : ` (${state.associatedMovies.length})`}</h3>
-        <GridList
-          data={state.associatedMovies}
-          renderItem={movie => (
-            <MoviePreview
-              title={movie.title}
-              pictureSrc={movie.pictureUri}
-              onClick={() => {
-                ScreenStack.mounted.push(MovieInfoScreen, {
-                  movieId: movie.id
-                })
-              }}
-            />
-          )}
-        />
+        <div style={{ position: 'relative', minHeight: 120 }}>
+          {
+            state.fetching ? (
+              <TaskIndicator />
+            ) : (
+                <>
+                  <h3>Movies{state.fetchingAssocMovies ? "" : ` (${state.associatedMovies.length})`}</h3>
+                  <GridList
+                    data={state.associatedMovies}
+                    renderItem={movie => (
+                      <MoviePreview
+                        title={movie.title}
+                        pictureSrc={movie.pictureUri}
+                        onClick={() => {
+                          ScreenStack.mounted.push(MovieInfoScreen, {
+                            movieId: movie.id
+                          })
+                        }}
+                      />
+                    )}
+                  />
+                </>
+              )
+          }
+        </div>
       </section>
     )
   }

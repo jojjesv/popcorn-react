@@ -63,6 +63,7 @@ export default class AddMovieScreen extends Screen {
     set("add-movie-categories", (data.categories || []).map(c => c.toLowerCase()).join(","));
     set("add-movie-score", data.score);
     set("add-movie-runtime", data.runtime);
+    set("add-movie-year", data.year);
   }
 
   /**
@@ -109,7 +110,7 @@ export default class AddMovieScreen extends Screen {
               <div>
                 <label for="add-movie-imdb-id">IMdb ID</label>
                 <input id="add-movie-imdb-id" type="text" disabled={!inputEnabled}
-                  maxLength="12" />
+                  maxLength="12" name="imdb_id" />
                 <button className={classNames({
                   busy: state.fetchingMovieByImdbId
                 })} onClick={e => {

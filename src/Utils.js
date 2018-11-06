@@ -41,5 +41,13 @@ export default {
 
   isEmpty(obj) {
     return Object.keys(obj).length == 0;
+  },
+
+  /**
+   * @returns Name initials, e.g. John Doe -> JD
+   * @param {string} fullName 
+   */
+  nameInitials(fullName) {
+    return fullName.split(" ").map(s => s.charAt(0).toUpperCase()).join("");
   }
 }

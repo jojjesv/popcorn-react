@@ -1,4 +1,6 @@
 .grid-list {
+  min-height: 120px;
+  
   .item {
     display: inline-block;
     width: 96px;
@@ -29,5 +31,9 @@
     font-size: 15px;
     color: #616161;
     font-weight: 400;
+
+    height: 36px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }

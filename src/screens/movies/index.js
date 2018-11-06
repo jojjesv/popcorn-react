@@ -9,6 +9,8 @@ import ScreenStack from '../../common/screen/ScreenStack';
 import AddMovieScreen from '../add_movie';
 import Backend from '../../Backend';
 import TaskIndicator from '../../common/task_indicator';
+import SearchBar, { QueryOptions } from './search';
+import { fetchMovies } from './service';
 
 /**
  * Screen which lists all movies, allows for signing in.
@@ -26,15 +28,14 @@ export default class MoviesScreen extends Screen {
 
   /**
    * Fetches movies.
+   * @param {QueryOptions} queryOpts
    */
-  async fetch() {
+  async fetch(queryOpts = {}) {
     this.setState({
       fetchingMovies: true,
     });
 
-    let movies = await Backend.request(
-      '/movies'
-    );
+    let movies = await fetchMovies(queryOpts);
 
     this.setState({
       movies,
@@ -42,11 +43,22 @@ export default class MoviesScreen extends Screen {
     })
   }
 
+  /**
+   * Searches for items.
+   * @param {QueryOptions} query
+   */
+  search(query) {
+    this.fetch(query);
+  }
+
   renderHeaderExtraContent() {
     return (
-      <button className="extra-btn add-movie" onClick={() => this.toAddMovie()}>
-        <img src={require('../../assets/ic_add.png')} alt="Add" />
-      </button>
+      <div>
+        <SearchBar onSearch={this.search.bind(this)} />
+        <button className="extra-btn add-movie" onClick={() => this.toAddMovie()}>
+          <img src={require('../../assets/ic_add.png')} alt="Add" />
+        </button>
+      </div>
     )
   }
 

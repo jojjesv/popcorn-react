@@ -1,0 +1,39 @@
+$safe-offset: 200px;
+
+.dialog-container {
+  position: fixed;
+  top: -$safe-offset;
+  left: -$safe-offset;
+  right: -$safe-offset;
+  bottom: -$safe-offset;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 99;
+
+  .dialog{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    max-width: 620px;
+    transform: translate(-50%, -50%);
+    padding: 24px 48px;
+    line-height: 150%;
+    box-shadow: 0 4px 64px rgba(0, 0, 0, 0.15);
+    box-sizing: border-box;
+    border-radius: 8px;
+    background: #fafafa;
+
+    /* Options "footer" */
+    .options {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+    }
+
+    em{
+      font-style: normal;
+      color: #616161;
+      font-variant: normal;
+    }
+  }
+}
