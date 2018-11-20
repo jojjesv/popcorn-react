@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import './styles.scss';
 
-const queryItems = ['movies', 'categories', 'cast'];
+const queryItems = ['movies', 'category', 'cast'];
 
 /**
  * A search bar.
@@ -30,24 +30,24 @@ export default class SearchBar extends React.Component {
 
   /**
    * @returns The label for a dropdown item.
-   * @param {"movies"|"cast"|"categories"} item
+   * @param {"movies"|"cast"|"category"} item
    * @param {string} query 
    */
   getDropdownItemText(item, query) {
     switch (item) {
       case 'movies':
-        return `movies: "${query}"`;
+        return `by name: "${query}"`;
 
       case 'cast':
-        return `cast: "${query}"`;
+        return `by cast: "${query}"`;
 
-      case 'categories':
-        return `categories: "${query}"`;
+      case 'category':
+        return `by category: "${query}"`;
     }
   }
 
   /**
-   * @param {"movies"|"cast"|"categories"} item 
+   * @param {"movies"|"cast"|"category"} item 
    */
   getDropdownItemId(item) {
     return `movies-search-dropdown-${item}`;
@@ -102,9 +102,10 @@ export default class SearchBar extends React.Component {
             {
               queryItems.map(item => (
                 <li key={item}>
-                  <a id={this.getDropdownItemId(item)} onClick={() => (
-                    props.onSearch(new QueryOptions(this.inputRef.value, item))
-                  )}>
+                  <a id={this.getDropdownItemId(item)} onClick={() => {
+                    props.onSearch(new QueryOptions(this.inputRef.value, item));
+                    this.onSearchQueryChanged('');
+                  }}>
                     {this.getDropdownItemText(item, '')}
                   </a>
                 </li>
@@ -120,7 +121,7 @@ export default class SearchBar extends React.Component {
 export class QueryOptions {
   /**
    * @param {string} query
-   * @param {"movie"|"cast"|"categories"} queryScope
+   * @param {"movie"|"cast"|"category"} queryScope
    */
   constructor(query, queryScope) {
     this.query = query;

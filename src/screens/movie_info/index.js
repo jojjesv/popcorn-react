@@ -150,8 +150,8 @@ export default class MovieInfoScreen extends Screen {
     let { state, modifiedData } = this;
     return (
       <div>
-        <span><span className={`fas fa-${icon}`} role="img"></span></span>
-        <input ref={e => e && (e.value = this.getValueForField(field, data))}
+        <span><span className={`fas fa-${icon} icon`} role="img"></span></span>
+        <input ref={e => e && (e.value = e.title = this.getValueForField(field, data))}
           type="text" className="editable" disabled={!state.editMode}
           onChange={e => {
             modifiedData[field] = e.currentTarget.value
@@ -241,10 +241,16 @@ export default class MovieInfoScreen extends Screen {
               <header className={classNames({
                 "hero": true,
                 "has-picture": !!data.pictureUri
-              })} style={{
-                backgroundImage: `url(${data.pictureUri})`
-              }}>
+              })}>
                 <div className="gradient"></div>
+                <div className="background-image blurred" style={{
+                  backgroundImage: `url(${data.pictureUri})`
+                }}>
+                </div>
+                <div className="background-image contain" style={{
+                  backgroundImage: `url(${data.pictureUri})`
+                }}>
+                </div>
                 <h2 className="title">{data.title} ({data.year})</h2>
 
               </header>

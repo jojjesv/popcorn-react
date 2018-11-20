@@ -5,11 +5,38 @@
     background-size: cover;
     background-position: center;
     position: relative;
+    overflow: hidden;
+
+    .background-image {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-position: center;
+
+      &.blurred {
+        background-size: cover;
+        $radius: 4px;
+        $inset: $radius * 2;
+        
+        left: -$inset;
+        top: -$inset;
+        right: -$inset;
+        bottom: -$inset;
+        filter: brightness(80%) blur($radius);
+      }
+
+      &.contain {
+        background-size: contain;
+        background-repeat: no-repeat;
+      }
+    }
 
     &.has-picture {
       .gradient {
         position: absolute;
-        z-index: 0;
+        z-index: 1;
         top: 0;
         left: 0;
         right: 0;
@@ -27,6 +54,7 @@
       position: absolute;
       bottom: 24px;
       margin: 0;
+      z-index: 2;
       left: 36px;
       font-weight: 400;
       font-size: 28px;
@@ -36,15 +64,36 @@
   /* Info grid */
   .specs {
     display: grid;
-    grid-template-columns: auto auto auto ;
+    grid-template-columns: 1fr 1fr 1fr;
     list-style: none;
-    padding: 0;
+    box-sizing: border-box;
+    padding: 0 24px;
+    margin: 18px 0;
+
+    white-space: nowrap;
 
     .icon {
       width: 18px;
       height: 18px;
-      margin-right: 6px;
-      vertical-align: middle;
+      position: relative;
+      top: 4px;
+    }
+  }
+}
+
+@media (max-width: 680px) {
+  .movie-info {
+    .specs {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+}
+
+
+@media (max-width: 480px) {
+  .movie-info {
+    .specs {
+      grid-template-columns: 1fr;
     }
   }
 }

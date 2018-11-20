@@ -1,3 +1,11 @@
+$text-input-width: 180px;
+$label-width: 80px;
+
+form {
+  white-space: nowrap;
+  min-width: 480px;
+}
+
 button {
   background: none;
   border: none;
@@ -39,6 +47,7 @@ input.editable {
   color: #424242;
 
   &[disabled] {
+    background: none;
     .hoverable {
       &:not(:hover) {
         border: none;
@@ -85,7 +94,7 @@ label,
 }
 
 label {
-  width: 80px;
+  width: $label-width;
   display: inline-block;
   margin-right: 8px;
   text-align: right;
@@ -95,7 +104,7 @@ input,
 textarea {
   border: 1px solid #e0e0e0;
   padding: 6px 12px;
-  width: 180px;
+  width: $text-input-width;
   font-size: 15px;
   resize: none;
   vertical-align: top;
@@ -140,5 +149,18 @@ textarea {
   &.small {
     font-size: 13px;
     margin-left: 8px;
+  }
+}
+
+@media (max-width: 720px) {
+  form {
+    transform: translateX(calc(50vw - #{$label-width} - #{$text-input-width / 2}));
+    margin: auto;
+  }
+
+  fieldset,
+  .fieldset {
+    display: grid;
+    grid-template-columns: auto;
   }
 }

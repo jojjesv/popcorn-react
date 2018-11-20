@@ -9,7 +9,7 @@ let dev = document.location.origin.indexOf('localhost') != -1;
  */
 export default class Backend {
   static get baseUrl() {
-    return `${dev ? 'http://af8125ec.ngrok.io' : document.location.origin.replace(":3000", ":3001")}/api`;
+    return `${dev ? 'http://localhost:8003' : document.location.origin.replace(":3000", ":3001")}/api`;
   }
 
   /**
